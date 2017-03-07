@@ -1,0 +1,25 @@
+DECLARE mycursor CURSOR SCROLL
+	FOR SELECT dsum,dnum FROM depart
+
+	OPEN mycursor
+	DECLARE @middle INT,@departnum CHAR(20),@temp INT
+	FETCH NEXT FROM mycursor INTO  @middle,@departnum
+	
+	WHILE(@@fetch_status=0)
+	BEGIN 
+		BEGIN
+		(SELECT @temp=COUNT(*)
+					FROM student
+					WHERE dnum=@departnum
+						)
+		IF (@middle!=@temp)
+				UPDATE depart
+				SET dsum=@temp
+				WHERE Current of mycursor
+			END
+
+		FETCH NEXT FROM mycursor INTO @middle,@departnum
+	END
+
+CLOSE mycursor
+DEALLOCATE mycursor

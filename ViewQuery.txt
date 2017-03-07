@@ -1,0 +1,10 @@
+CREATE VIEW namesum(orgname,orgsum)
+AS
+SELECT MAX(orgnam),COUNT(snum)
+
+FROM (SELECT orgnam,sjoin.orgnum,snum
+		FROM org,sjoin
+		WHERE org.orgnum=sjoin.orgnum
+	)a
+
+GROUP BY(a.orgnum)

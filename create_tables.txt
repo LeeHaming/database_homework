@@ -1,0 +1,56 @@
+CREATE TABLE class
+(
+	cnum CHAR(20) PRIMARY KEY,
+	proname char(20),
+	schyear INT,
+	dnum CHAR(20),
+	csum INT
+)
+
+CREATE TABLE depart
+(
+	dnum CHAR(20) PRIMARY KEY,
+	dname CHAR(20),
+	darea CHAR(20),
+	dsum INT
+)
+
+CREATE TABLE org
+(
+	orgnum CHAR(20) PRIMARY KEY,
+	orgnam CHAR(20),
+	orgyear INT,
+	orgarea CHAR(20)
+)
+
+CREATE TABLE student
+(
+	snum CHAR(20) PRIMARY KEY,
+	sname CHAR(20) NOT NULL,
+	ssex CHAR(5) CHECK(ssex='ÄÐ'or ssex='Å®') DEFAULT'ÄÐ',
+	sage INT ,
+	dnum CHAR(20),
+	cnum CHAR(20),
+	docu CHAR(20),
+	FOREIGN KEY(dnum) REFERENCES depart(dnum)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE,
+	FOREIGN KEY(cnum) REFERENCES class(cnum)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE
+)
+
+CREATE TABLE sjoin
+(
+	snum CHAR(20) NOT NULL,
+	orgnum CHAR(20) NOT NULL,
+	joinyear CHAR(20),
+	PRIMARY KEY(snum,orgnum),
+	FOREIGN KEY(snum) REFERENCES student(snum)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE,
+	FOREIGN KEY(orgnum) REFERENCES org(orgnum)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE
+)
+	

@@ -1,0 +1,37 @@
+CREATE TRIGGER mytrigger
+on student
+for insert,delete
+AS
+update depart
+set		depart.dsum=depart.dsum+1
+where	depart.dnum=(
+				select inserted.dnum
+				from inserted
+					)
+update class
+set		class.csum=class.csum+1
+where	class.cnum=(
+				select inserted.cnum
+				from inserted
+					)
+update depart
+set		depart.dsum=depart.dsum-1
+where	depart.dnum=(
+				select deleted.dnum
+				from deleted
+					)
+update class
+set		class.csum=class.csum-1
+where	class.cnum=(
+			select deleted.cnum
+			from deleted
+					)
+
+
+
+delete 
+from student
+where snum='140101003'or snum='140101004'
+
+
+drop trigger mytrigger

@@ -1,0 +1,27 @@
+//创建过程
+CREATE PROCEDURE change_cnum 
+@oldcnum CHAR(20),@newcnum CHAR(20),@cnumber INT OUTPUT
+AS
+UPDATE class
+SET class.cnum=@newcnum,@cnumber=csum
+WHERE class.cnum=@oldcnum 
+UPDATE student
+SET student.cnum=@newcnum
+WHERE student.cnum=@oldcnum 
+
+//删除过程
+DROP PROCEDURE change_cnum
+
+// 建立级联之后建立更新过程
+CREATE PROCEDURE change_cnum 
+@oldcnum CHAR(20),@newcnum CHAR(20),@cnumber INT OUTPUT
+AS
+UPDATE class
+SET class.cnum=@newcnum,@cnumber=csum
+WHERE class.cnum=@oldcnum 
+
+
+//执行存储过程
+DECLARE @cnumber INT
+EXEC change_cnum 'C101','CTEST',@cnumber OUTPUT
+PRINT STR(@cnumber)
